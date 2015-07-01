@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#scoreboard {
+  background: hotpink;
+  width: 60%;
+  height: 80px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#board {
+  background-color: black;
+  width: 55%;
+  height: 600px;
+  margin: 0 auto;
+  border-radius: 5%;
+}
+
+#board > div {
+  width: 30%;
+  height: 30%;
+  background-color: yellow;
+  margin: 1%;
+  display: inline-block;
+}
