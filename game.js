@@ -47,6 +47,7 @@ $(document).ready(function() {
       winsDiagonal();
       winsHorizontal();
       winsVertical();
+      switchPlayer();
   /*    if (findWinner) {
         gameOver();
       }*/
@@ -57,6 +58,15 @@ $(document).ready(function() {
   };
 
   makeMove();
+
+  function switchPlayer(){
+    if (currentPlayer === 'X') {
+      currentPlayer = 'O';
+    } else {
+      currentPlayer = 'X';
+    }
+    return currentPlayer;
+  }
 
   var winsDiagonal = function(){
     var won;
