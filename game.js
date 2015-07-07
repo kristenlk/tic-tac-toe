@@ -44,6 +44,10 @@ $(document).ready(function() {
   var makeMove = function() {
     $('#board').find('div').on('click', function() {
       $(this).html(currentPlayer);
+      winsDiagonal();
+  /*    if (findWinner) {
+        gameOver();
+      }*/
       // ask when I might want to use .html() vs .text()
       // add class here that designates that the cell has been filled - has different styling etc.
     });
@@ -54,7 +58,7 @@ $(document).ready(function() {
 
   var winsDiagonal = function(){
     var won;
-    if (($('#one') === currentPlayer && $('#five') === currentPlayer && $('#nine') === currentPlayer) || ($('#three') === currentPlayer && $('#five') === currentPlayer && $('#seven') === currentPlayer)) {
+    if (($('#one').html() === currentPlayer && $('#five').html() === currentPlayer && $('#nine').html() === currentPlayer) || ($('#three').html() === currentPlayer && $('#five').html() === currentPlayer && $('#seven').html() === currentPlayer)) {
       $('#prompt').html('You won!');
       won = true;
     } else {
@@ -62,10 +66,22 @@ $(document).ready(function() {
     }
     return won;
   };
-  // why isn't this working yet?
 
-  winsDiagonal();
 
+
+/*  var findWinner = function(){
+    if (winsDiagonal === true) {
+      var winner = $('#board').find('div').html();
+      console.log(winner)
+    }
+    return winner;
+  };
+
+  findWinner();*/
+
+/*  var gameOver = function(){
+    $('#new-game-prompt').html('Game over!');
+  } */
 
 /*  var winsHorizontal = function(){
 
