@@ -2,20 +2,33 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://code.jquery.com/jquery-2.1.4.js"></script>
   </head>
   <body>
     <div id="scoreboard">
     </div>
-    <div id="board">
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
-      <div>5</div>
-      <div>6</div>
-      <div>7</div>
-      <div>8</div>
-      <div>9</div>
+    <div id="prompt">
+      Welcome to Tic-Tac-Toe!
+      <br/>
+      <button type="button">New Game</button>
+      <div id="new-game-prompt">
+        Would you like to be X or O?
+        <button type="button" id="X">X</button>
+        <button type="button" id="O">O</button>
+      </div>
     </div>
+    <div id="board">
+      <!-- is there a different type of ID I can use on these divs? -->
+      <div id="one">1</div>
+      <div id="two">2</div>
+      <div id="three">3</div>
+      <div id="four">4</div>
+      <div id="five">5</div>
+      <div id="six">6</div>
+      <div id="seven">7</div>
+      <div id="eight">8</div>
+      <div id="nine">9</div>
+    </div>
+    <script src="game.js" type="text/javascript" charset="utf-8" async defer></script>
   </body>
 </html>

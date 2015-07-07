@@ -10,6 +10,21 @@
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
+  text-align: center;
+}
+
+#prompt {
+  background: turquoise;
+  width: 60%;
+  height: 50px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#new-game-prompt {
+  display:none;
 }
 
 #board {
@@ -19,6 +34,8 @@
   margin: 0 auto;
   border-radius: 5%;
 }
+
+
 
 #board > div {
   width: 30%;
