@@ -45,6 +45,8 @@ $(document).ready(function() {
     $('#board').find('div').on('click', function() {
       $(this).html(currentPlayer);
       winsDiagonal();
+      winsHorizontal();
+      winsVertical();
   /*    if (findWinner) {
         gameOver();
       }*/
@@ -67,7 +69,27 @@ $(document).ready(function() {
     return won;
   };
 
+  var winsHorizontal = function(){
+    var won;
+    if (($('#one').html() === currentPlayer && $('#two').html() === currentPlayer && $('#three').html() === currentPlayer) || ($('#four').html() === currentPlayer && $('#five').html() === currentPlayer && $('#six').html() === currentPlayer) || ($('#seven').html() === currentPlayer && $('#eight').html() === currentPlayer && $('#nine').html() === currentPlayer )){
+      $('#prompt').html('You won!');
+      won = true;
+    } else {
+      won = false;
+    }
+    return won;
+  };
 
+  var winsVertical = function(){
+    var won;
+    if (($('#one').html() === currentPlayer && $('#four').html() === currentPlayer && $('#seven').html() === currentPlayer) || ($('#two').html() === currentPlayer && $('#five').html() === currentPlayer && $('#eight').html() === currentPlayer) || ($('#three').html() === currentPlayer && $('#six').html() === currentPlayer && $('#nine').html() === currentPlayer )) {
+      $('#prompt').html('You won!');
+      won = true;
+    } else {
+      won = false;
+    }
+    return won;
+  };
 
 /*  var findWinner = function(){
     if (winsDiagonal === true) {
