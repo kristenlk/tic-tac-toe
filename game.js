@@ -28,6 +28,7 @@ $(document).ready(function() {
   var newGame = function(){
     $(this).hide();
     $('#welcome').hide();
+    clearBoard();
     $('#prompt').show();
     $('#prompt').html(originalPrompt);
     // Reset the board! Should probably be a function.
@@ -46,10 +47,11 @@ $(document).ready(function() {
       currentPlayer = 'O';
       $('#prompt').html('You\'re O. Select a box to make your first move.');
     }
+    makeMove();
   };
 
-  var clearBoard = {
-    $('#board').find('div').html('');
+  var clearBoard = function(){
+    $('#board').find('div').text('');
   };
 
 // when should my functions take in arguments?
@@ -77,9 +79,6 @@ $(document).ready(function() {
     });
     // what should this function return?
   };
-
-  makeMove();
-
 
   // var checkIfWon() {
 
@@ -162,7 +161,7 @@ $(document).ready(function() {
 
 // 8. DONE: Make the new New Game button work.
 
-// 9. Create a "clear board" function that is invoked when a new game begins.
+// 9. DONE: Create a "clear board" function that is invoked when a new game begins.
 
 // OTHER THINGS:
 
@@ -173,6 +172,8 @@ $(document).ready(function() {
 // Create a save game button, log in / log out button, etc.
 // Create a setup overlay (X or O, number of games, play against computer or someone else)
 // Wait times (a couple seconds when the computer is thinking about where to go), fade-ins?
+// What do my functions return?
+
 
 /*    JSON.parse(grungeAlbumsJSON).albums.forEach(function(album){
     $("#albums").append(albumTemplate(album));
