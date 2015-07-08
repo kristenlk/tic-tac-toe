@@ -23,10 +23,13 @@ $(document).ready(function() {
   var currentPlayer;
   //$('#prompt').html('Welcome to Tic-Tac-Toe!');
 
+  var originalPrompt = $('#prompt').html();
+
   var newGame = function(){
     $(this).hide();
     $('#welcome').hide();
     $('#prompt').show();
+    $('#prompt').html(originalPrompt);
     // Reset the board! Should probably be a function.
     $('.player-choice').on('click', choiceSelection);
     // return currentPlayer;
@@ -45,7 +48,9 @@ $(document).ready(function() {
     }
   };
 
-
+  var clearBoard = {
+    $('#board').find('div').html('');
+  };
 
 // when should my functions take in arguments?
 // bug: if you haven't chosen a player yet, but click on a box twice, X / O appear
@@ -141,11 +146,11 @@ $(document).ready(function() {
 
 // THINGS I NEED TO FIGURE OUT ON WED:
 
-// 1. Make the new game button appear when the gameOver function fires. -- DONE
+// 1. DONE: Make the new game button appear when the gameOver function fires.
 
 // 2. Make it so the gameOver function fires when the whole board is full.
 
-// 3. If a user clicks on a div that already has been filled, display an error message. -- DONE
+// 3. DONE: If a user clicks on a div that already has been filled, display an error message.
 
 // 4. Make the computer randomly choose a spot on the board.
 
@@ -154,6 +159,10 @@ $(document).ready(function() {
 // 6. Make it so a person can play to a certain number of games (5, etc.) and that is kept track of in the pink div.
 
 // 7. Make numbers stop appearing in divs without everything getting thrown off.
+
+// 8. DONE: Make the new New Game button work.
+
+// 9. Create a "clear board" function that is invoked when a new game begins.
 
 // OTHER THINGS:
 
