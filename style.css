@@ -13,17 +13,17 @@
   text-align: center;
 }
 
-#prompt {
+#messaging {
   background: turquoise;
   width: 60%;
-  height: 50px;
+  height: 60px;
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: center;
 }
 
-#new-game-prompt {
+#prompt {
   display:none;
 }
 
@@ -40,7 +40,9 @@
 #board > div {
   width: 30%;
   height: 30%;
-  background-color: yellow;
+  background-color: white;
   margin: 1%;
   display: inline-block;
+  font-size: 100px;
+  text-align: center;
 }

@@ -18,39 +18,53 @@ console.log(board[2]);
 
 $(document).ready(function() {
 
+//  var array = [];
+
   var currentPlayer;
   //$('#prompt').html('Welcome to Tic-Tac-Toe!');
 
   var newGame = function(){
-    $('button').on('click', function() {
-      $(this).remove();
-      $('#new-game-prompt').show();
-      if (this.id === 'X') {
-        //alert('X was clicked');
-        currentPlayer = 'X';
-        $('#new-game-prompt').html('You\'re X. Select a box to make your first move.');
-      } else if (this.id === 'O') {
-        currentPlayer = 'O';
-        $('#new-game-prompt').html('You\'re O. Select a box to make your first move.');
-      }
-    });
-    return currentPlayer;
+    $(this).hide();
+    $('#welcome').hide();
+    $('#prompt').show();
+    // Reset the board! Should probably be a function.
+
+    // return currentPlayer;
   };
 
-  newGame();
+  $('#new-game-button').on('click', newGame);
+
+  $('.player-choice').on('click', function(){
+    if (this.id === 'X') {
+      //alert('X was clicked');
+      currentPlayer = 'X';
+      $('#prompt').html('You\'re X. Select a box to make your first move.');
+    } else if (this.id === 'O') {
+      currentPlayer = 'O';
+      $('#prompt').html('You\'re O. Select a box to make your first move.');
+    }
+  });
 
 // when should my functions take in arguments?
+// bug: if you haven't chosen a player yet, but click on a box twice, X / O appear
+
 
   var makeMove = function() {
     $('#board').find('div').on('click', function() {
-      $(this).html(currentPlayer);
-      winsDiagonal();
-      winsHorizontal();
-      winsVertical();
-      switchPlayer();
-  /*    if (findWinner) {
-        gameOver();
-      }*/
+      if (!($(this).is(':empty'))) {
+        $('#prompt').html('Can\'t go there!');
+      } else {
+        $(this).html(currentPlayer);
+        if (checkIfWinner()) { // || ($('#board').forEach(function(box){
+        //     $(this).find('#div').html === 'X' || 'O'
+        // }))) {
+          gameOver();
+        } else if (!checkIfWinner()) {
+          switchPlayer();
+          $('#prompt').html(currentPlayer + '\'s turn.');
+        }
+      }
+      // checkIfWinner(winsDiagonal, winsHorizontal, winsVertical);
       // ask when I might want to use .html() vs .text()
       // add class here that designates that the cell has been filled - has different styling etc.
     });
@@ -59,7 +73,12 @@ $(document).ready(function() {
 
   makeMove();
 
-  function switchPlayer(){
+
+  // var checkIfWon() {
+
+  // };
+
+  var switchPlayer = function(){
     if (currentPlayer === 'X') {
       currentPlayer = 'O';
     } else {
@@ -71,7 +90,7 @@ $(document).ready(function() {
   var winsDiagonal = function(){
     var won;
     if (($('#one').html() === currentPlayer && $('#five').html() === currentPlayer && $('#nine').html() === currentPlayer) || ($('#three').html() === currentPlayer && $('#five').html() === currentPlayer && $('#seven').html() === currentPlayer)) {
-      $('#prompt').html('You won!');
+      //$('#prompt').html(currentPlayer + ' won!');
       won = true;
     } else {
       won = false;
@@ -82,7 +101,7 @@ $(document).ready(function() {
   var winsHorizontal = function(){
     var won;
     if (($('#one').html() === currentPlayer && $('#two').html() === currentPlayer && $('#three').html() === currentPlayer) || ($('#four').html() === currentPlayer && $('#five').html() === currentPlayer && $('#six').html() === currentPlayer) || ($('#seven').html() === currentPlayer && $('#eight').html() === currentPlayer && $('#nine').html() === currentPlayer )){
-      $('#prompt').html('You won!');
+      //$('#prompt').html(currentPlayer + ' won!');
       won = true;
     } else {
       won = false;
@@ -93,7 +112,7 @@ $(document).ready(function() {
   var winsVertical = function(){
     var won;
     if (($('#one').html() === currentPlayer && $('#four').html() === currentPlayer && $('#seven').html() === currentPlayer) || ($('#two').html() === currentPlayer && $('#five').html() === currentPlayer && $('#eight').html() === currentPlayer) || ($('#three').html() === currentPlayer && $('#six').html() === currentPlayer && $('#nine').html() === currentPlayer )) {
-      $('#prompt').html('You won!');
+      //$('#prompt').html(currentPlayer + ' won!');
       won = true;
     } else {
       won = false;
@@ -101,49 +120,59 @@ $(document).ready(function() {
     return won;
   };
 
-/*  var findWinner = function(){
-    if (winsDiagonal === true) {
-      var winner = $('#board').find('div').html();
-      console.log(winner)
+  var checkIfWinner = function(){
+    if ((winsDiagonal() === true) || (winsHorizontal() === true) || (winsVertical() === true)) {
+      var winner = currentPlayer;
+      console.log(winner);
     }
     return winner;
   };
 
-  findWinner();*/
-
-/*  var gameOver = function(){
-    $('#new-game-prompt').html('Game over!');
-  } */
-
-/*  var winsHorizontal = function(){
-
-  };
-
-  var winsVertical = function(){
-
-  };*/
-
-/*function xWins() {
-  if (board[0][0] === 'X' && board[0][1] === 'X' && board[0][2] === 'X') {
-    return true;
-  } else if (board[1][0] === 'X' && board[1][1] === 'X' && board[1][2] === 'X') {
-    return true;
-  } else if (board[2][0] === 'X' && board[2][1] === 'X' && board[2][2] === 'X') {
-    return true;
-  } else if (board[0][0] === 'X' && board[1][1] === 'X' && board[2][2] === 'X') {
-    return true;
-  } else if (board[0][2] === 'X' && board[1][1] === 'X' && board[2][0] === 'X') {
-    return true;
-  } else if (board[0][0] === 'X' && board[1][0] === 'X' && board[2][0] === 'X') {
-    return true;
-  } else if (board[0][1] === 'X' && board[1][1] === 'X' && board[2][1] === 'X') {
-    return true;
-  } else if (board[0][2] === 'X' && board[1][2] === 'X' && board[2][2] === 'X') {
-    return true;
-  } else {
-    return false;
+  var gameOver = function(){
+    $('#prompt').html(currentPlayer + ' won! Game over!');
+    $('#board').find($('div')).off('click');
+    // CANNOT GET THIS TO WORK. I JUST WANT THE NEW GAME BUTTON TO SHOW UP WHEN A GAME ENDS. ***
+    $('#new-game-button').show();
   }
-}*/
+
+
+
+// THINGS I NEED TO FIGURE OUT ON WED:
+
+// 1. Make the new game button appear when the gameOver function fires. -- DONE
+
+// 2. Make it so the gameOver function fires when the whole board is full.
+
+// 3. If a user clicks on a div that already has been filled, display an error message. -- DONE
+
+// 4. Make the computer randomly choose a spot on the board.
+
+// 5. Get array coordinates to append to an array when they're filled.
+
+// 6. Make it so a person can play to a certain number of games (5, etc.) and that is kept track of in the pink div.
+
+// 7. Make numbers stop appearing in divs without everything getting thrown off.
+
+// OTHER THINGS:
+
+// AJAX stuff
+// Styling: bootstrap, addClass (when you try to click on an occupied div, outline winning combos)
+// Separation of concerns
+// Browserify
+// Create a save game button, log in / log out button, etc.
+// Create a setup overlay (X or O, number of games, play against computer or someone else)
+// Wait times (a couple seconds when the computer is thinking about where to go), fade-ins?
+
+/*    JSON.parse(grungeAlbumsJSON).albums.forEach(function(album){
+    $("#albums").append(albumTemplate(album));
+});
+
+// look at the jquery docs for .off() to solve this problem
+  //   $('#div').each(function(){
+  //     $('#div').prop('readonly', '1')
+  //   });
+  // }
+
 
 /*
 Try using something like this:
@@ -162,6 +191,12 @@ JSON.parse(grungeAlbumsJSON).albums.forEach(function(album){
 
 });
 
-// If user clicks on a div, put an X there.
-  // On click,
-// If user clicks on a div that already has an X or an O, display error.
+
+// Game Object
+/// - method: new game
+/// - method: add moves
+/// - method: check winner
+/// - game board
+/// - which player is this?
+
+// everything that's html related (jquery, things that interact with the front end) should be separated. Essentially, you should be able to play this game via the command line.

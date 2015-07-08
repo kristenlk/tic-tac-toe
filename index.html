@@ -7,27 +7,31 @@
   <body>
     <div id="scoreboard">
     </div>
-    <div id="prompt">
+    <div id="messaging">
+      <div id="welcome">
       Welcome to Tic-Tac-Toe!
+      </div>
       <br/>
-      <button type="button">New Game</button>
-      <div id="new-game-prompt">
+      <div id="prompt">
         Would you like to be X or O?
-        <button type="button" id="X">X</button>
-        <button type="button" id="O">O</button>
+        <button type="button" class="player-choice" id="X">X</button>
+        <button type="button" class="player-choice" id="O">O</button>
+      </div>
+      <div id="new-game-button">
+        <button type="button" id="newgamebutton">New Game</button>
       </div>
     </div>
     <div id="board">
       <!-- is there a different type of ID I can use on these divs? -->
-      <div id="one">1</div>
-      <div id="two">2</div>
-      <div id="three">3</div>
-      <div id="four">4</div>
-      <div id="five">5</div>
-      <div id="six">6</div>
-      <div id="seven">7</div>
-      <div id="eight">8</div>
-      <div id="nine">9</div>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+      <div id="four"></div>
+      <div id="five"></div>
+      <div id="six"></div>
+      <div id="seven"></div>
+      <div id="eight"></div>
+      <div id="nine"></div>
     </div>
     <script src="game.js" type="text/javascript" charset="utf-8" async defer></script>
   </body>
