@@ -16,9 +16,19 @@ console.log(board[1]);
 console.log(board[2]);
 */
 
-$(document).ready(function() {
+// Write these methods:
+// * checks if the game is over
+// * checks if there is a winner
+// * make move
+// * change turn
+// * add piece to board
 
-//  var array = [];
+
+$(document).ready(function() {
+  var $tiles = $('#board').find('div');
+
+
+  //  var array = [];
 
   var currentPlayer;
   //$('#prompt').html('Welcome to Tic-Tac-Toe!');
@@ -29,6 +39,7 @@ $(document).ready(function() {
     $(this).hide();
     $('#welcome').hide();
     clearBoard();
+    moveCount = 0;
     $('#prompt').show();
     $('#prompt').html(originalPrompt);
     // Reset the board! Should probably be a function.
@@ -54,35 +65,41 @@ $(document).ready(function() {
     $('#board').find('div').text('');
   };
 
-// when should my functions take in arguments?
-// bug: if you haven't chosen a player yet, but click on a box twice, X / O appear
+  // when should my functions take in arguments?
+  var moveCount = 0;
+
+  var checkIfTie = function(){
+    if (moveCount === 9) {
+      return true;
+      console.log('tie');
+    } else {
+      return false;
+    }
+  };
 
 
-  var makeMove = function() {
+  var makeMove = function(){
     $('#board').find('div').on('click', function() {
+      moveCount++;
+      console.log(moveCount);
       if (!($(this).is(':empty'))) {
         $('#prompt').html('Can\'t go there!');
       } else {
         $(this).html(currentPlayer);
-        if (checkIfWinner()) { // || ($('#board').forEach(function(box){
-        //     $(this).find('#div').html === 'X' || 'O'
-        // }))) {
+        if (checkIfWinner()) {
+          $('#prompt').html(currentPlayer + ' won! Game over!');
           gameOver();
-        } else if (!checkIfWinner()) {
+        } else if (!checkIfWinner() && checkIfTie()) {
+          $('#prompt').html('Tie! Game over!');
+          gameOver();
+        } else if (!checkIfWinner() && !checkIfTie()) {
           switchPlayer();
           $('#prompt').html(currentPlayer + '\'s turn.');
         }
       }
-      // checkIfWinner(winsDiagonal, winsHorizontal, winsVertical);
-      // ask when I might want to use .html() vs .text()
-      // add class here that designates that the cell has been filled - has different styling etc.
     });
-    // what should this function return?
   };
 
-  // var checkIfWon() {
-
-  // };
 
   var switchPlayer = function(){
     if (currentPlayer === 'X') {
@@ -134,10 +151,12 @@ $(document).ready(function() {
     return winner;
   };
 
+
+
+
   var gameOver = function(){
-    $('#prompt').html(currentPlayer + ' won! Game over!');
+    // $('#prompt').html(currentPlayer + ' won! Game over!');
     $('#board').find($('div')).off('click');
-    // CANNOT GET THIS TO WORK. I JUST WANT THE NEW GAME BUTTON TO SHOW UP WHEN A GAME ENDS. ***
     $('#new-game-button').show();
   }
 
@@ -147,7 +166,7 @@ $(document).ready(function() {
 
 // 1. DONE: Make the new game button appear when the gameOver function fires.
 
-// 2. Make it so the gameOver function fires when the whole board is full.
+// 2. DONE: Make it so the gameOver function fires when the whole board is full.
 
 // 3. DONE: If a user clicks on a div that already has been filled, display an error message.
 
@@ -157,11 +176,13 @@ $(document).ready(function() {
 
 // 6. Make it so a person can play to a certain number of games (5, etc.) and that is kept track of in the pink div.
 
-// 7. Make numbers stop appearing in divs without everything getting thrown off.
+// 7. DONE: Make numbers stop appearing in divs without everything getting thrown off.
 
 // 8. DONE: Make the new New Game button work.
 
 // 9. DONE: Create a "clear board" function that is invoked when a new game begins.
+
+// 10. DONE: Fix bug where letters are appearing when you double-click on a div prior to choosing a letter.
 
 // OTHER THINGS:
 
