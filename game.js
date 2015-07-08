@@ -28,13 +28,13 @@ $(document).ready(function() {
     $('#welcome').hide();
     $('#prompt').show();
     // Reset the board! Should probably be a function.
-
+    $('.player-choice').on('click', choiceSelection);
     // return currentPlayer;
   };
 
   $('#new-game-button').on('click', newGame);
 
-  $('.player-choice').on('click', function(){
+  var choiceSelection = function(){
     if (this.id === 'X') {
       //alert('X was clicked');
       currentPlayer = 'X';
@@ -43,7 +43,9 @@ $(document).ready(function() {
       currentPlayer = 'O';
       $('#prompt').html('You\'re O. Select a box to make your first move.');
     }
-  });
+  };
+
+
 
 // when should my functions take in arguments?
 // bug: if you haven't chosen a player yet, but click on a box twice, X / O appear
