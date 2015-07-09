@@ -31,6 +31,10 @@ $(document).ready(function() {
   //  var array = [];
 
   var currentPlayer;
+  var userPlayer;
+  var computerPlayer;
+  var gameCount = 0;
+
   //$('#prompt').html('Welcome to Tic-Tac-Toe!');
 
   var originalPrompt = $('#prompt').html();
@@ -40,10 +44,17 @@ $(document).ready(function() {
     $('#welcome').hide();
     clearBoard();
     moveCount = 0;
-    $('#prompt').show();
-    $('#prompt').html(originalPrompt);
-    // Reset the board! Should probably be a function.
-    $('.player-choice').on('click', choiceSelection);
+    // $('#prompt').show();
+    // $('#prompt').html(originalPrompt);
+    if (gameCount === 0) {
+      $('#prompt').show();
+      $('#prompt').html(originalPrompt);
+      $('.player-choice').on('click', choiceSelection);
+    } else if (gameCount > 0) {
+      $('#prompt').show();
+      $('#prompt').html('You\'re ' + userPlayer + '. Select a box to make your first move.');
+      makeMove();
+    }
     // return currentPlayer;
   };
 
@@ -53,9 +64,13 @@ $(document).ready(function() {
     if (this.id === 'X') {
       //alert('X was clicked');
       currentPlayer = 'X';
+      userPlayer = 'X';
+      computerPlayer = 'O';
       $('#prompt').html('You\'re X. Select a box to make your first move.');
     } else if (this.id === 'O') {
       currentPlayer = 'O';
+      userPlayer = 'O';
+      computerPlayer = 'X';
       $('#prompt').html('You\'re O. Select a box to make your first move.');
     }
     makeMove();
@@ -69,9 +84,8 @@ $(document).ready(function() {
   var moveCount = 0;
 
   var checkIfTie = function(){
-    if (moveCount === 9) {
+    if ((moveCount === 9) && (!checkIfWinner())) {
       return true;
-      console.log('tie');
     } else {
       return false;
     }
@@ -84,14 +98,17 @@ $(document).ready(function() {
       console.log(moveCount);
       if (!($(this).is(':empty'))) {
         $('#prompt').html('Can\'t go there!');
+        moveCount--;
       } else {
         $(this).html(currentPlayer);
         if (checkIfWinner()) {
           $('#prompt').html(currentPlayer + ' won! Game over!');
           gameOver();
+          countsPlays();
         } else if (!checkIfWinner() && checkIfTie()) {
           $('#prompt').html('Tie! Game over!');
           gameOver();
+          countsPlays();
         } else if (!checkIfWinner() && !checkIfTie()) {
           switchPlayer();
           $('#prompt').html(currentPlayer + '\'s turn.');
@@ -112,7 +129,12 @@ $(document).ready(function() {
 
   var winsDiagonal = function(){
     var won;
-    if (($('#one').html() === currentPlayer && $('#five').html() === currentPlayer && $('#nine').html() === currentPlayer) || ($('#three').html() === currentPlayer && $('#five').html() === currentPlayer && $('#seven').html() === currentPlayer)) {
+    if (($('#one').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#nine').html() === currentPlayer) || (
+         $('#three').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#seven').html() === currentPlayer)) {
       //$('#prompt').html(currentPlayer + ' won!');
       won = true;
     } else {
@@ -123,7 +145,15 @@ $(document).ready(function() {
 
   var winsHorizontal = function(){
     var won;
-    if (($('#one').html() === currentPlayer && $('#two').html() === currentPlayer && $('#three').html() === currentPlayer) || ($('#four').html() === currentPlayer && $('#five').html() === currentPlayer && $('#six').html() === currentPlayer) || ($('#seven').html() === currentPlayer && $('#eight').html() === currentPlayer && $('#nine').html() === currentPlayer )){
+    if (($('#one').html() === currentPlayer &&
+         $('#two').html() === currentPlayer &&
+         $('#three').html() === currentPlayer) || (
+         $('#four').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#six').html() === currentPlayer) || (
+         $('#seven').html() === currentPlayer &&
+         $('#eight').html() === currentPlayer &&
+         $('#nine').html() === currentPlayer )){
       //$('#prompt').html(currentPlayer + ' won!');
       won = true;
     } else {
@@ -134,7 +164,15 @@ $(document).ready(function() {
 
   var winsVertical = function(){
     var won;
-    if (($('#one').html() === currentPlayer && $('#four').html() === currentPlayer && $('#seven').html() === currentPlayer) || ($('#two').html() === currentPlayer && $('#five').html() === currentPlayer && $('#eight').html() === currentPlayer) || ($('#three').html() === currentPlayer && $('#six').html() === currentPlayer && $('#nine').html() === currentPlayer )) {
+    if (($('#one').html() === currentPlayer &&
+         $('#four').html() === currentPlayer &&
+         $('#seven').html() === currentPlayer) || (
+         $('#two').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#eight').html() === currentPlayer) || (
+         $('#three').html() === currentPlayer &&
+         $('#six').html() === currentPlayer &&
+         $('#nine').html() === currentPlayer )) {
       //$('#prompt').html(currentPlayer + ' won!');
       won = true;
     } else {
@@ -144,7 +182,9 @@ $(document).ready(function() {
   };
 
   var checkIfWinner = function(){
-    if ((winsDiagonal() === true) || (winsHorizontal() === true) || (winsVertical() === true)) {
+    if ((winsDiagonal() === true) || (
+         winsHorizontal() === true) || (
+         winsVertical() === true)) {
       var winner = currentPlayer;
       console.log(winner);
     }
@@ -152,14 +192,41 @@ $(document).ready(function() {
   };
 
 
-
-
   var gameOver = function(){
     // $('#prompt').html(currentPlayer + ' won! Game over!');
     $('#board').find($('div')).off('click');
     $('#new-game-button').show();
+    gameCount++;
+    console.log('gameCount: ' + gameCount);
   }
 
+// should take the number of X wins, the number of O wins, and the number of ties -- display them in #scoreboard
+
+  var userWins = 0;
+  var computerWins = 0;
+  var ties = 0;
+
+  var countsPlays = function(){
+    if (checkIfTie()) {
+      ties++;
+      $('#ties').html('Ties: ' + ties);
+    } else if (currentPlayer === userPlayer) {
+      userWins++;
+      $('#user-wins').html('You: ' + userWins);
+    } else if (currentPlayer === computerPlayer) {
+      computerWins++;
+      $('#computer-wins').html('Computer: ' + computerWins);
+    }
+  };
+
+  // var randomBeginner = function(){
+  //   var randomNumber = Math.random();
+  //   if (randomNumber < 0.5) {
+  //     currentPlayer = userPlayer;
+  //   } else {
+  //     currentPlayer = computerPlayer;
+  //   }
+  // };
 
 
 // THINGS I NEED TO FIGURE OUT ON WED:
@@ -174,7 +241,7 @@ $(document).ready(function() {
 
 // 5. Get array coordinates to append to an array when they're filled.
 
-// 6. Make it so a person can play to a certain number of games (5, etc.) and that is kept track of in the pink div.
+// 6. DONE: Keep track of games won / tied in the pink div.
 
 // 7. DONE: Make numbers stop appearing in divs without everything getting thrown off.
 
@@ -183,6 +250,11 @@ $(document).ready(function() {
 // 9. DONE: Create a "clear board" function that is invoked when a new game begins.
 
 // 10. DONE: Fix bug where letters are appearing when you double-click on a div prior to choosing a letter.
+
+// 11. DONE: Don't ask if the user wants to be X or O EVERY time they play a new game - only the first time.
+
+// 12. Make it so user 1 doesn't automatically go first - add random function
+
 
 // OTHER THINGS:
 
@@ -194,18 +266,9 @@ $(document).ready(function() {
 // Create a setup overlay (X or O, number of games, play against computer or someone else)
 // Wait times (a couple seconds when the computer is thinking about where to go), fade-ins?
 // What do my functions return?
-
-
-/*    JSON.parse(grungeAlbumsJSON).albums.forEach(function(album){
-    $("#albums").append(albumTemplate(album));
-});
-
-// look at the jquery docs for .off() to solve this problem
-  //   $('#div').each(function(){
-  //     $('#div').prop('readonly', '1')
-  //   });
-  // }
-
+// Create readme file
+// Deploy to GitHub / GitHub Pages
+// Create wireframes / user stories
 
 /*
 Try using something like this:
