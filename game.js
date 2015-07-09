@@ -58,21 +58,37 @@ $(document).ready(function() {
     // return currentPlayer;
   };
 
+
+
   $('#new-game-button').on('click', newGame);
+
+  var randomBeginner = function(){
+    var randomNumber = Math.random();
+    if (randomNumber < 0.5) {
+      currentPlayer = userPlayer;
+      console.log("Current player: " + currentPlayer + ", userPlayer : " + userPlayer + ", computerPlayer: " + computerPlayer + ", randomNumber: " + randomNumber);
+    } else {
+      currentPlayer = computerPlayer;
+      console.log("Current player: " + currentPlayer + ", userPlayer : " + userPlayer + ", computerPlayer: " + computerPlayer + ", randomNumber: " + randomNumber);
+    }
+  };
+
+  // Currently, when the OTHER player is chosen randomly to start (i.e. if I choose X but O is chosen to start), the message still reads "You're X. Select a box to make your first move." It should really read something new, like "You're X." and on a new line "We'll randomly choose either you or the computer to go first." And then wait a few seconds... and then show "O is first!"
 
   var choiceSelection = function(){
     if (this.id === 'X') {
       //alert('X was clicked');
-      currentPlayer = 'X';
+      // currentPlayer = 'X';
       userPlayer = 'X';
       computerPlayer = 'O';
       $('#prompt').html('You\'re X. Select a box to make your first move.');
     } else if (this.id === 'O') {
-      currentPlayer = 'O';
+      // currentPlayer = 'O';
       userPlayer = 'O';
       computerPlayer = 'X';
       $('#prompt').html('You\'re O. Select a box to make your first move.');
     }
+    randomBeginner();
     makeMove();
   };
 
@@ -90,6 +106,8 @@ $(document).ready(function() {
       return false;
     }
   };
+
+
 
 
   var makeMove = function(){
@@ -219,14 +237,7 @@ $(document).ready(function() {
     }
   };
 
-  // var randomBeginner = function(){
-  //   var randomNumber = Math.random();
-  //   if (randomNumber < 0.5) {
-  //     currentPlayer = userPlayer;
-  //   } else {
-  //     currentPlayer = computerPlayer;
-  //   }
-  // };
+
 
 
 // THINGS I NEED TO FIGURE OUT ON WED:
