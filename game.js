@@ -121,6 +121,7 @@ $(document).ready(function() {
     $('#new-game-button').show();
     gameCount++;
     console.log('gameCount: ' + gameCount);
+    boardArray = ['', '', '', '', '', '', '', '', ''];
   }
 
 
@@ -216,7 +217,7 @@ $(document).ready(function() {
   var boardArray = ['', '', '', '', '', '', '', '', ''];
 
   var pushToArray = function(player, cell){
-    boardArray.splice((cell - 1), 0, player);
+    boardArray[cell] = player;
     console.log(boardArray);
   };
 
@@ -271,7 +272,7 @@ $(document).ready(function() {
 // Create readme file
 // Deploy to GitHub / GitHub Pages
 // Create wireframes / user stories
-
+// Should everything NOT be inside of document.ready()?
 
 // THURSDAY:
 

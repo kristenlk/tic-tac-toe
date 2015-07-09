@@ -2,11 +2,26 @@
 <html>
   <head>
     <title>Tic-Tac-Toe</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
     <!-- Not working: <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js" defer charset="utf-8"></script>-->
   </head>
   <body>
+    <div id="login-info">
+      <input type="text" placeholder="email address">
+      <input type="password" placeholder="password">
+      <button>Register</button>
+      <button>Log In</button>
+      <button>Log Out</button>
+    </div>
+    <div id="game-controls">
+      <button>Create a new game.</button>
+      <button>Join an open game.</button>
+      <ul id="open-games">
+        <li><input type="radio" name="open-games" value="valueOne">Value One</li>
+        <li><input type="radio" name="open-games" value="valueTwo">Value Two</li>
+      </ul>
+    </div>
     <div id="scoreboard">
       <div id="user-wins">You: 0</div>
       <div id="computer-wins">Computer: 0</div>
@@ -38,8 +53,9 @@
       <div id="7"></div>
       <div id="8"></div>
     </div>
-    <script type="text/javascript" src="js/index.js" defer charset="utf-8"></script>
-    <script src="game.js" type="text/javascript" charset="utf-8" async defer></script>
+    <!--<script type="text/javascript" src="js/index.js" defer charset="utf-8"></script>-->
+    <script src="gamelogic.js" type="text/javascript"></script>
+    <script src="ui.js" type="text/javascript"></script>
   </body>
 </html>
 

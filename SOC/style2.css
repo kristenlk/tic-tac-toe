@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  text-align: center;
+}
+
+#scoreboard {
+  background: hotpink;
+  width: 60%;
+  height: 80px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#messaging {
+  background: turquoise;
+  width: 60%;
+  height: 60px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#prompt {
+  display: none;
+}
+
+#board {
+  width: 55%;
+  height: 600px;
+  margin: 0 auto;
+}
+
+
+#board > div {
+  width: 30%;
+  height: 30%;
+  margin: 1%;
+  border: 2px solid black;
+  float: left;
+  font-size: 150px;
+  text-align: center;
+}
+
+
