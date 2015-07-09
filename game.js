@@ -1,21 +1,3 @@
-/* What I need to do:
-- I need a tic-tac-toe board with 9 blocks. Eventually, these 9 blocks should line up with the 9 divs I created in my HTML file.
-- When the game begins, the player should be asked whether they want to be X or O.
-
-*/
-
-/*var board = [
-  [1, 2, 2],//.join('   '),
-  [0, 1, 2],//.join('   '),
-  [0, 1, 2]//.join('   ')
-];
-
-console.log('Let\'s play Tic-Tac-Toe! You\'re X, and the computer is O.');
-console.log(board[0]);
-console.log(board[1]);
-console.log(board[2]);
-*/
-
 // Write these methods:
 // * checks if the game is over
 // * checks if there is a winner
@@ -25,43 +7,18 @@ console.log(board[2]);
 
 
 $(document).ready(function() {
+
   var $tiles = $('#board').find('div');
-
-
-  //  var array = [];
-
   var currentPlayer;
   var userPlayer;
   var computerPlayer;
   var gameCount = 0;
-
-  //$('#prompt').html('Welcome to Tic-Tac-Toe!');
-
   var originalPrompt = $('#prompt').html();
+  var moveCount = 0;
+  var userWins = 0;
+  var computerWins = 0;
+  var ties = 0;
 
-  var newGame = function(){
-    $(this).hide();
-    $('#welcome').hide();
-    clearBoard();
-    moveCount = 0;
-    // $('#prompt').show();
-    // $('#prompt').html(originalPrompt);
-    if (gameCount === 0) {
-      $('#prompt').show();
-      $('#prompt').html(originalPrompt);
-      $('.player-choice').on('click', choiceSelection);
-    } else if (gameCount > 0) {
-      $('#prompt').show();
-      // $('#prompt').html('You\'re ' + userPlayer + '. Select a box to make your first move.');
-      randomBeginner();
-      makeMove();
-    }
-    // return currentPlayer;
-  };
-
-
-
-  $('#new-game-button').on('click', newGame);
 
   var randomBeginner = function(){
     var randomNumber = Math.random();
@@ -84,33 +41,71 @@ $(document).ready(function() {
     }
   };
 
-  // Currently, when the OTHER player is chosen randomly to start (i.e. if I choose X but O is chosen to start), the message still reads "You're X. Select a box to make your first move." It should really read something new, like "You're X." and on a new line "We'll randomly choose either you or the computer to go first." And then wait a few seconds... and then show "O is first!"
 
-  var choiceSelection = function(){
-    if (this.id === 'X') {
-      //alert('X was clicked');
-      // currentPlayer = 'X';
-      userPlayer = 'X';
-      computerPlayer = 'O';
-      // $('#prompt').html('You\'re X. Select a box to make your first move.');
-      $('#prompt').html('You\'re X.');
-    } else if (this.id === 'O') {
-      // currentPlayer = 'O';
-      userPlayer = 'O';
-      computerPlayer = 'X';
-      // $('#prompt').html('You\'re O. Select a box to make your first move.');
-      $('#prompt').html('You\'re O.');
+  var winsDiagonal = function(){
+    var won;
+    if (($('#one').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#nine').html() === currentPlayer) || (
+         $('#three').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#seven').html() === currentPlayer)) {
+      won = true;
+    } else {
+      won = false;
     }
-    randomBeginner();
-    makeMove();
+    return won;
   };
 
-  var clearBoard = function(){
-    $('#board').find('div').text('');
+
+  var winsHorizontal = function(){
+    var won;
+    if (($('#one').html() === currentPlayer &&
+         $('#two').html() === currentPlayer &&
+         $('#three').html() === currentPlayer) || (
+         $('#four').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#six').html() === currentPlayer) || (
+         $('#seven').html() === currentPlayer &&
+         $('#eight').html() === currentPlayer &&
+         $('#nine').html() === currentPlayer )){
+      won = true;
+    } else {
+      won = false;
+    }
+    return won;
   };
 
-  // when should my functions take in arguments?
-  var moveCount = 0;
+
+  var winsVertical = function(){
+    var won;
+    if (($('#one').html() === currentPlayer &&
+         $('#four').html() === currentPlayer &&
+         $('#seven').html() === currentPlayer) || (
+         $('#two').html() === currentPlayer &&
+         $('#five').html() === currentPlayer &&
+         $('#eight').html() === currentPlayer) || (
+         $('#three').html() === currentPlayer &&
+         $('#six').html() === currentPlayer &&
+         $('#nine').html() === currentPlayer )) {
+      won = true;
+    } else {
+      won = false;
+    }
+    return won;
+  };
+
+
+  var checkIfWinner = function(){
+    if ((winsDiagonal() === true) || (
+         winsHorizontal() === true) || (
+         winsVertical() === true)) {
+      var winner = currentPlayer;
+      console.log(winner);
+    }
+    return winner;
+  };
+
 
   var checkIfTie = function(){
     if ((moveCount === 9) && (!checkIfWinner())) {
@@ -121,7 +116,75 @@ $(document).ready(function() {
   };
 
 
+  var gameOver = function(){
+    $('#board').find($('div')).off('click');
+    $('#new-game-button').show();
+    gameCount++;
+    console.log('gameCount: ' + gameCount);
+  }
 
+
+  var countsPlays = function(){
+    if (checkIfTie()) {
+      ties++;
+      $('#ties').html('Ties: ' + ties);
+    } else if (currentPlayer === userPlayer) {
+      userWins++;
+      $('#user-wins').html('You: ' + userWins);
+    } else if (currentPlayer === computerPlayer) {
+      computerWins++;
+      $('#computer-wins').html('Computer: ' + computerWins);
+    }
+  };
+
+
+  var switchPlayer = function(){
+    if (currentPlayer === 'X') {
+      currentPlayer = 'O';
+    } else {
+      currentPlayer = 'X';
+    }
+    return currentPlayer;
+  }
+
+
+  var clearBoard = function(){
+    $('#board').find('div').text('');
+  };
+
+
+  var choiceSelection = function(){
+    if (this.id === 'X') {
+      userPlayer = 'X';
+      computerPlayer = 'O';
+      $('#prompt').html('You\'re X.');
+    } else if (this.id === 'O') {
+      userPlayer = 'O';
+      computerPlayer = 'X';
+      $('#prompt').html('You\'re O.');
+    }
+    randomBeginner();
+    makeMove();
+  };
+
+
+  var newGame = function(){
+    $(this).hide();
+    $('#welcome').hide();
+    clearBoard();
+    moveCount = 0;
+    if (gameCount === 0) {
+      $('#prompt').show();
+      $('#prompt').html(originalPrompt);
+      $('.player-choice').on('click', choiceSelection);
+    } else if (gameCount > 0) {
+      $('#prompt').show();
+      randomBeginner();
+      makeMove();
+    }
+  };
+
+  $('#new-game-button').on('click', newGame);
 
   var makeMove = function(){
     $('#board').find('div').on('click', function() {
@@ -147,108 +210,7 @@ $(document).ready(function() {
       }
     });
   };
-
-
-  var switchPlayer = function(){
-    if (currentPlayer === 'X') {
-      currentPlayer = 'O';
-    } else {
-      currentPlayer = 'X';
-    }
-    return currentPlayer;
-  }
-
-  var winsDiagonal = function(){
-    var won;
-    if (($('#one').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#nine').html() === currentPlayer) || (
-         $('#three').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#seven').html() === currentPlayer)) {
-      //$('#prompt').html(currentPlayer + ' won!');
-      won = true;
-    } else {
-      won = false;
-    }
-    return won;
-  };
-
-  var winsHorizontal = function(){
-    var won;
-    if (($('#one').html() === currentPlayer &&
-         $('#two').html() === currentPlayer &&
-         $('#three').html() === currentPlayer) || (
-         $('#four').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#six').html() === currentPlayer) || (
-         $('#seven').html() === currentPlayer &&
-         $('#eight').html() === currentPlayer &&
-         $('#nine').html() === currentPlayer )){
-      //$('#prompt').html(currentPlayer + ' won!');
-      won = true;
-    } else {
-      won = false;
-    }
-    return won;
-  };
-
-  var winsVertical = function(){
-    var won;
-    if (($('#one').html() === currentPlayer &&
-         $('#four').html() === currentPlayer &&
-         $('#seven').html() === currentPlayer) || (
-         $('#two').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#eight').html() === currentPlayer) || (
-         $('#three').html() === currentPlayer &&
-         $('#six').html() === currentPlayer &&
-         $('#nine').html() === currentPlayer )) {
-      //$('#prompt').html(currentPlayer + ' won!');
-      won = true;
-    } else {
-      won = false;
-    }
-    return won;
-  };
-
-  var checkIfWinner = function(){
-    if ((winsDiagonal() === true) || (
-         winsHorizontal() === true) || (
-         winsVertical() === true)) {
-      var winner = currentPlayer;
-      console.log(winner);
-    }
-    return winner;
-  };
-
-
-  var gameOver = function(){
-    // $('#prompt').html(currentPlayer + ' won! Game over!');
-    $('#board').find($('div')).off('click');
-    $('#new-game-button').show();
-    gameCount++;
-    console.log('gameCount: ' + gameCount);
-  }
-
-// should take the number of X wins, the number of O wins, and the number of ties -- display them in #scoreboard
-
-  var userWins = 0;
-  var computerWins = 0;
-  var ties = 0;
-
-  var countsPlays = function(){
-    if (checkIfTie()) {
-      ties++;
-      $('#ties').html('Ties: ' + ties);
-    } else if (currentPlayer === userPlayer) {
-      userWins++;
-      $('#user-wins').html('You: ' + userWins);
-    } else if (currentPlayer === computerPlayer) {
-      computerWins++;
-      $('#computer-wins').html('Computer: ' + computerWins);
-    }
-  };
+});
 
 
 
@@ -283,7 +245,7 @@ $(document).ready(function() {
 // OTHER THINGS:
 
 // AJAX stuff
-// Styling: bootstrap, addClass (when you try to click on an occupied div, outline winning combos)
+// Styling: Bootstrap, addClass (when you try to click on an occupied div, outline winning combos)
 // Separation of concerns
 // Browserify
 // Create a save game button, log in / log out button, etc.
@@ -294,22 +256,13 @@ $(document).ready(function() {
 // Deploy to GitHub / GitHub Pages
 // Create wireframes / user stories
 
-/*
-Try using something like this:
 
-var albumTemplate = function(album){
-    return "<li><strong>" + album.name + "</strong> by " + album.artist + "</h4></li><span>Units Sold : " + album.unitsSold + "</span></li>"
-}
+// THURSDAY:
 
-JSON.parse(grungeAlbumsJSON).albums.forEach(function(album){
-    $("#albums").append(albumTemplate(album));
-});
-
-*** define a function that takes something in -- doesn't necessarily have to be defined yet (like album above) ***
-*/
-
-
-});
+// 1. Make the computer intelligently choose a spot on the board.
+// 2. Code cleanup / separation of concerns / Browserify / what do my functions return?
+// 3. Get array coordinates to append to an array when they're filled / AJAX stuff
+// 4. Styling: Bootstrap, addClass
 
 
 // Game Object
