@@ -8,7 +8,6 @@
 
 $(document).ready(function() {
 
-  var $tiles = $('#board').find('div');
   var currentPlayer;
   var userPlayer;
   var computerPlayer;
@@ -18,6 +17,7 @@ $(document).ready(function() {
   var userWins = 0;
   var computerWins = 0;
   var ties = 0;
+  var $cell = $('#board').find('div')
 
 
   var randomBeginner = function(){
@@ -44,12 +44,12 @@ $(document).ready(function() {
 
   var winsDiagonal = function(){
     var won;
-    if (($('#one').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#nine').html() === currentPlayer) || (
-         $('#three').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#seven').html() === currentPlayer)) {
+    if (($('#0').html() === currentPlayer &&
+         $('#4').html() === currentPlayer &&
+         $('#8').html() === currentPlayer) || (
+         $('#2').html() === currentPlayer &&
+         $('#4').html() === currentPlayer &&
+         $('#6').html() === currentPlayer)) {
       won = true;
     } else {
       won = false;
@@ -60,15 +60,15 @@ $(document).ready(function() {
 
   var winsHorizontal = function(){
     var won;
-    if (($('#one').html() === currentPlayer &&
-         $('#two').html() === currentPlayer &&
-         $('#three').html() === currentPlayer) || (
-         $('#four').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#six').html() === currentPlayer) || (
-         $('#seven').html() === currentPlayer &&
-         $('#eight').html() === currentPlayer &&
-         $('#nine').html() === currentPlayer )){
+    if (($('#0').html() === currentPlayer &&
+         $('#1').html() === currentPlayer &&
+         $('#2').html() === currentPlayer) || (
+         $('#3').html() === currentPlayer &&
+         $('#4').html() === currentPlayer &&
+         $('#5').html() === currentPlayer) || (
+         $('#6').html() === currentPlayer &&
+         $('#7').html() === currentPlayer &&
+         $('#8').html() === currentPlayer )){
       won = true;
     } else {
       won = false;
@@ -79,15 +79,15 @@ $(document).ready(function() {
 
   var winsVertical = function(){
     var won;
-    if (($('#one').html() === currentPlayer &&
-         $('#four').html() === currentPlayer &&
-         $('#seven').html() === currentPlayer) || (
-         $('#two').html() === currentPlayer &&
-         $('#five').html() === currentPlayer &&
-         $('#eight').html() === currentPlayer) || (
-         $('#three').html() === currentPlayer &&
-         $('#six').html() === currentPlayer &&
-         $('#nine').html() === currentPlayer )) {
+    if (($('#0').html() === currentPlayer &&
+         $('#3').html() === currentPlayer &&
+         $('#6').html() === currentPlayer) || (
+         $('#1').html() === currentPlayer &&
+         $('#4').html() === currentPlayer &&
+         $('#7').html() === currentPlayer) || (
+         $('#2').html() === currentPlayer &&
+         $('#5').html() === currentPlayer &&
+         $('#8').html() === currentPlayer )) {
       won = true;
     } else {
       won = false;
@@ -117,7 +117,7 @@ $(document).ready(function() {
 
 
   var gameOver = function(){
-    $('#board').find($('div')).off('click');
+    $cell.off('click');
     $('#new-game-button').show();
     gameCount++;
     console.log('gameCount: ' + gameCount);
@@ -149,7 +149,7 @@ $(document).ready(function() {
 
 
   var clearBoard = function(){
-    $('#board').find('div').text('');
+    $cell.text('');
   };
 
 
@@ -187,7 +187,8 @@ $(document).ready(function() {
   $('#new-game-button').on('click', newGame);
 
   var makeMove = function(){
-    $('#board').find('div').on('click', function() {
+    $cell.on('click', function() {
+      var selectedCellID = $(this).attr('id');
       moveCount++;
       console.log(moveCount);
       if (!($(this).is(':empty'))) {
@@ -195,6 +196,7 @@ $(document).ready(function() {
         moveCount--;
       } else {
         $(this).html(currentPlayer);
+        pushToArray(currentPlayer, selectedCellID);
         if (checkIfWinner()) {
           $('#prompt').html(currentPlayer + ' won! Game over!');
           gameOver();
@@ -210,6 +212,20 @@ $(document).ready(function() {
       }
     });
   };
+
+  var boardArray = ['', '', '', '', '', '', '', '', ''];
+
+  var pushToArray = function(player, cell){
+    boardArray.splice((cell - 1), 0, player);
+    console.log(boardArray);
+  };
+
+  // If TWO out of three cells in 1-3, 4-6, 7-9, 1-4-7, 2-5-8, 3-6-9, 1-5-9, 3-5-7 are occupied by two of the same player (either by player or by computer), computer should go in that third cell. If two of any of those cell combos AREN'T occupied (i.e. if only one of them is), the computer should go into the middle cell. If the middle cell is already occupied, and any of the cell combos just have the computerPlayer in one of the cells, go into a corresponding corner cell.
+
+  // call the game logic stuff from the UI stuff. Don't make game logic depend on UI
+  // call the game logic file first in the HTML file
+  // define an object, give it all of the methods that we want to be public
+
 });
 
 
@@ -225,7 +241,7 @@ $(document).ready(function() {
 
 // 4. Make the computer intelligently choose a spot on the board.
 
-// 5. Get array coordinates to append to an array when they're filled.
+// 5. DONE: Get array coordinates to append to an array when they're filled.
 
 // 6. DONE: Keep track of games won / tied in the pink div.
 
@@ -273,3 +289,11 @@ $(document).ready(function() {
 /// - which player is this?
 
 // everything that's html related (jquery, things that interact with the front end) should be separated. Essentially, you should be able to play this game via the command line.
+
+
+
+// game logic: (none of these depend on the browser)
+// keep track of board, make player moves, check for a winner, reset the game, keep a scoreboard
+
+// UI:
+// responding to clicks, updating the browser, sharing information with the user, overall look and feel of the page
