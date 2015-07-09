@@ -52,7 +52,8 @@ $(document).ready(function() {
       $('.player-choice').on('click', choiceSelection);
     } else if (gameCount > 0) {
       $('#prompt').show();
-      $('#prompt').html('You\'re ' + userPlayer + '. Select a box to make your first move.');
+      // $('#prompt').html('You\'re ' + userPlayer + '. Select a box to make your first move.');
+      randomBeginner();
       makeMove();
     }
     // return currentPlayer;
@@ -67,9 +68,19 @@ $(document).ready(function() {
     if (randomNumber < 0.5) {
       currentPlayer = userPlayer;
       console.log("Current player: " + currentPlayer + ", userPlayer : " + userPlayer + ", computerPlayer: " + computerPlayer + ", randomNumber: " + randomNumber);
+      if (gameCount === 0) {
+        $('#prompt').append(' Each game, we\'ll randomly choose either you or the computer to go first. For this round, you\'re first! Select a box to make your first move.');
+      } else if (gameCount > 0) {
+        $('#prompt').html('You\'re first this time! Remember, you\'re ' + userPlayer + '. Select a box to make your first move.')
+      }
     } else {
       currentPlayer = computerPlayer;
       console.log("Current player: " + currentPlayer + ", userPlayer : " + userPlayer + ", computerPlayer: " + computerPlayer + ", randomNumber: " + randomNumber);
+      if (gameCount === 0) {
+        $('#prompt').append(' Each game, we\'ll randomly choose either you or the computer to go first. For this round, the computer will go first.');
+      } else if (gameCount > 0) {
+        $('#prompt').html('Computer is first this time. Remember, you\'re ' + userPlayer + '. Wait for the computer to make its move.')
+      }
     }
   };
 
@@ -81,12 +92,14 @@ $(document).ready(function() {
       // currentPlayer = 'X';
       userPlayer = 'X';
       computerPlayer = 'O';
-      $('#prompt').html('You\'re X. Select a box to make your first move.');
+      // $('#prompt').html('You\'re X. Select a box to make your first move.');
+      $('#prompt').html('You\'re X.');
     } else if (this.id === 'O') {
       // currentPlayer = 'O';
       userPlayer = 'O';
       computerPlayer = 'X';
-      $('#prompt').html('You\'re O. Select a box to make your first move.');
+      // $('#prompt').html('You\'re O. Select a box to make your first move.');
+      $('#prompt').html('You\'re O.');
     }
     randomBeginner();
     makeMove();
@@ -248,7 +261,7 @@ $(document).ready(function() {
 
 // 3. DONE: If a user clicks on a div that already has been filled, display an error message.
 
-// 4. Make the computer randomly choose a spot on the board.
+// 4. Make the computer intelligently choose a spot on the board.
 
 // 5. Get array coordinates to append to an array when they're filled.
 
@@ -264,7 +277,7 @@ $(document).ready(function() {
 
 // 11. DONE: Don't ask if the user wants to be X or O EVERY time they play a new game - only the first time.
 
-// 12. Make it so user 1 doesn't automatically go first - add random function
+// 12. DONE: Make it so user 1 doesn't automatically go first - add random function
 
 
 // OTHER THINGS:
