@@ -4,37 +4,55 @@
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Noto+Sans:700|Arimo:700|Ubuntu:700|Montserrat:700|Raleway:800' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
     <!-- Not working: <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js" defer charset="utf-8"></script>-->
   </head>
   <body>
-    <!--<div id="login-info">
-      <input type="text" placeholder="email address">
-      <input type="password" placeholder="password">
-      <button>Register</button>
-      <button>Log In</button>
-      <button>Log Out</button>
-    </div>
-    <div id="game-controls">
-      <button>Create a new game.</button>
-      <button>Join an open game.</button>
+    <!--
+
+    Token: null
+    Log In and Register buttons below tic-tac-toe header
+      If you click on Log In, Log In and Create Account buttons disappear. Email address and password fields appear with Go button (ID: #login).
+      If you click on Create Account, Log In and Create Account buttons disappear. Email address and password fields appear with Register button (ID: #register).
+
+      If token is not null, display Create a New Game button (#create), List All Games button (#list), and Join a Game button.
+        If you click on List All Games button, a list with radio buttons displays. If user clicks on the radio button for a game, (not sure if this is possible) the ID is grabbed
+        If you click on Join a Game button, an Enter a Game ID input field appears with )-->
+    <div id="container">
+      <div id="login-info">
+        <h1>tic - tac - toe</h1>
+        <div id="login-buttons">
+          <button class="btn btn-default" id="register1">Register</button>
+          <button class="btn btn-default" id="login1">Log In</button>
+          <button class="btn btn-default" id="log-out">Log Out</button>
+        </div>
+        <div id="login-fields">
+          <input type="text" placeholder="email address">
+          <input type="password" placeholder="password">
+          <button class="btn btn-default" name="login-buttons-interior" id="register">Create Account</button>
+          <button class="btn btn-default" name="login-buttons-interior" id="login">Go</button>
+        </div>
+      </div>
+      <div id="game-controls">
+        <button class="btn btn-default">Create a new game.</button>
+        <button class="btn btn-default">Join an open game.</button>
       <ul id="open-games">
         <li><input type="radio" name="open-games" value="valueOne">Value One</li>
         <li><input type="radio" name="open-games" value="valueTwo">Value Two</li>
       </ul>
-    </div>-->
-    <h1>tic - tac - toe</h1>
+      </div>
+    </div>
     <div id="scoreboard">
-      <div id="user-wins">You: 0</div>
-      <div id="computer-wins">Computer: 0</div>
-      <div id="ties">Ties: 0</div>
+      <div id="player1-wins">Player 1: <br>0</div>
+      <div id="player2-wins">Player 2: <br>0</div>
+      <div id="ties">Ties: <br>0</div>
     </div>
     <div id="messaging">
       <div id="prompt">
-        Would you like to be X or O?<br>
+        Player 1:  Would you like to be X or O?<br><br>
         <button class="btn btn-default" name="player-choice" id="X" type="submit">X</button>
         <button class="btn btn-default" name="player-choice" id="O" type="submit">O</button>
       </div>

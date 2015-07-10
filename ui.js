@@ -1,150 +1,140 @@
 $(document).ready(function() {
 
   var $cell = $('#board').find('div');
-  var originalPrompt = $('#prompt').html();
-  $('#prompt').hide();
+  var $prompt = $('#prompt');;
+  var originalPrompt = $prompt.html();
+  $prompt.hide();
+
+  var clearBoard = function(){
+    $cell.text('');
+    Game.resetBoard();
+  };
+
+// not this one
+  var setRandomBeginnerUI = function(){
+    var firstPlayer = Game.setRandomBeginner();
+    if (firstPlayer === Game.playerOne()) {
+      if (Game.gameCount() === 0) {
+        $prompt.append(' Player 1 has been randomly chosen to go first this round. Player 1, select a box to make your first move.');
+      } else if (Game.gameCount()> 0) {
+        $prompt.html(' Player 1 has been randomly chosen to go first this round. Player 1, select a box to make your first move.')
+      }
+    } else {
+      if (Game.gameCount() === 0) {
+        $prompt.append(' Player 2 has been randomly chosen to go first this round. Player 2, select a box to make your first move.');
+      } else if (Game.gameCount() > 0) {
+        $prompt.html(' Player 2 has been randomly chosen to go first this round. Player 2, select a box to make your first move.')
+      }
+    }
+  };
+
+  var updatesScoreboard = function(){
+    Game.countsPlays();
+    $('#ties').html('Ties: ' + Game.ties());
+    $('#player1-wins').html('Player 1: <br>' + Game.playerOneWins());
+    $('#player2-wins').html('Player 2: <br>' + Game.playerTwoWins());
+  };
+
+  var makeMove = function(){
+    $cell.on('click', function() {
+      var selectedCellID = Number($(this).attr('id'));
+      console.log('selectedCellID: ' + selectedCellID)
+      if (Game.isValidMove(selectedCellID)) {
+        Game.incrementMoveCount();
+        console.log('moveCount: ' + Game.moveCount());
+        $(this).html(Game.currentPlayer());
+        // console.log('currentPlayer: ' + Game.currentPlayer);
+        Game.addToBoard(Game.currentPlayer(), selectedCellID);
+        if (Game.isGameOver()) {
+          if (!Game.isTie()) {
+            $prompt.html(Game.currentPlayer() + ' won! Game over!');
+            gameOverUI();
+          } else {
+            $prompt.html('Tie! Game over!');
+            gameOverUI();
+          }
+          updatesScoreboard();
+        } else {
+          Game.switchPlayer();
+          $prompt.html(Game.currentPlayer() + '\'s turn.');
+        }
+      } else {
+        $prompt.html('Can\'t go there!');
+      }
+    });
+  };
+
+
+  var choiceSelection = function(){
+    if (this.id === 'X') {
+      Game.setPlayers('X', 'O');
+      $prompt.html('Player 1, you\'re X. Player 2, you\'re O.<br><br>');
+    } else if (this.id === 'O') {
+      Game.setPlayers('O','X');
+      $prompt.html('Player 1, you\'re O. Player 2, you\'re X.<br><br>');
+    }
+    setRandomBeginnerUI();
+    // console.log('Game.setRandomBeginner: ' + Game.setRandomBeginner())
+    makeMove();
+  };
 
   var newGame = function(){
+    // console.log('currentPlayer: ' + Game.currentPlayer);
     $(this).hide();
-    // $('#welcome').hide();
     clearBoard();
-    moveCount = 0; // Game.newGame();
-    if (gameCount === 0) {
-      $('#prompt').show();
-      $('#prompt').html(originalPrompt);
-      // $('.player-choice').on('click', choiceSelection);
+    Game.resetMoveCount();
+    if (Game.gameCount() === 0) {
+      $prompt.show();
+      $prompt.html(originalPrompt);
       $('[name="player-choice"]').on('click', choiceSelection);
-    } else if (gameCount > 0) {
-      $('#prompt').show();
-      // $('#prompt').css('display', 'table-cell');
-      // $('#prompt').css('vertical-align', 'middle');
+    } else if (Game.gameCount() > 0) {
+      $prompt.show();
       setRandomBeginnerUI();
+      console.log('Game.setRandomBeginner: ' + Game.setRandomBeginner())
       makeMove();
     }
   };
 
   $('#new-game-button').on('click', newGame);
 
-  // this stuff was originally in the isGameOver function, which is set in gamelogic.js.
-  var isGameOverUI = function(){
+  var gameOverUI = function(){
     $cell.off('click');
     $('#new-game-button').show();
-    gameCount++;
-    console.log('gameCount: ' + gameCount);
-    isGameOver();
-  };
-
-  var setRandomBeginnerUI = function(){
-    if (setRandomBeginner() === userPlayer) {
-      if (gameCount === 0) {
-        $('#prompt').append(' Each game, we\'ll randomly choose either you or the computer to go first. For this round, you\'re first! Select a box to make your first move.');
-      } else if (gameCount > 0) {
-        $('#prompt').html('You\'re first this time! Remember, you\'re ' + userPlayer + '. Select a box to make your first move.')
-      }
-    } else {
-      if (gameCount === 0) {
-        $('#prompt').append(' Each game, we\'ll randomly choose either you or the computer to go first. For this round, the computer will go first.');
-      } else if (gameCount > 0) {
-        $('#prompt').html('Computer is first this time. Remember, you\'re ' + userPlayer + '. Wait for the computer to make its move.')
-      }
-    }
+    Game.incrementGameCount();
+    Game.isGameOver();
   };
 
 
-  var clearBoard = function(){
-    $cell.text('');
-    resetBoard();
-  };
+// Functions: Game.resetBoard(), Game.setPlayers(), Game.setRandomBeginner(), Game.isvalidmove(), Game.addToBoard(), Game.isGameOver(), Game.isTie(), Game.countsPlays(), Game.switchPlayer()
+// Variables: Game.gameCount, Game.userPlayer, Game.moveCount, Game.currentPlayer, ties, userWins, computerWins
 
 
+// Login / game controls
 
+  $('#log-out').hide();
+  $('#login-fields').hide();
+  $('#game-controls').hide();
+  $('[name="login-buttons-interior"]').hide();
 
-
-
-// corresponds with countsPlays()
-// wasn't working when I tested it in codepen but not sure if it's broken or not. Should countsPlays() return something, and updatesScoreboard should work off of it? Perhaps number of ties / wins, and then compare it against last number to see if it incremented?
-  var updatesScoreboard = function(){
-    countsPlays();
-    $('#ties').html('Ties: ' + ties);
-    $('#user-wins').html('You: ' + userWins);
-    $('#computer-wins').html('Computer: ' + computerWins);
-  };
-
-
-
-
-  var choiceSelection = function(){
-    if (this.id === 'X') {
-      setPlayers('X', 'O');
-      $('#prompt').html('You\'re X.');
-    } else if (this.id === 'O') {
-      setPlayers("O","X");
-      $('#prompt').html('You\'re O.');
-    }
-    setRandomBeginnerUI();
-    makeMove();
-  };
-
-
-//
-
-  // var makeMove = function(){
-  //   $cell.on('click', function() {
-  //     var selectedCellID = $(this).attr('id');
-  //     moveCount++;
-  //     console.log(moveCount);
-
-  // if a cell is empty, say you can't go there.
-
-  //     if (!($(this).is(':empty'))) {
-  //       $('#prompt').html('Can\'t go there!');
-  //       moveCount--;
-  //     } else {
-  //       $(this).html(currentPlayer);
-  //       pushToArray(currentPlayer, selectedCellID);
-  //       if (checkIfWinner()) {
-  //         $('#prompt').html(currentPlayer + ' won! Game over!');
-  //         gameOver();
-  //         countsPlays();
-  //       } else if (!checkIfWinner() && checkIfTie()) {
-  //         $('#prompt').html('Tie! Game over!');
-  //         gameOver();
-  //         countsPlays();
-  //       } else if (!checkIfWinner() && !checkIfTie()) {
-  //         switchPlayer();
-  //         $('#prompt').html(currentPlayer + '\'s turn.');
-  //       }
-  //     }
-  //   });
-  // };
-
-
-
-//
-
-  var makeMove = function(){
-    $cell.on('click', function() {
-      var selectedCellID = Number($(this).attr('id'));
-      if (isValidMove(selectedCellID)) {
-        moveCount++;
-        $(this).html(currentPlayer);
-        addToBoard(currentPlayer, selectedCellID);
-        if (isGameOver()) {
-          if (!isTie()) {
-            $('#prompt').html(currentPlayer + ' won! Game over!');
-            isGameOverUI();
-          } else {
-            $('#prompt').html('Tie! Game over!');
-            isGameOverUI();
-          }
-          updatesScoreboard();
-        } else {
-          switchPlayer();
-          $('#prompt').html(currentPlayer + '\'s turn.');
-        }
+  var clickLogInButtons = function(){
+    $('#login-buttons').find('button').on('click', function(){
+      $('#login-buttons').hide();
+      $('#login-fields').show();
+      if (this.id === 'login1') {
+        $('#login').show();
       } else {
-        $('#prompt').html('Can\'t go there!');
+        $('#register').show();
       }
     });
   };
+
+
+  // var clickIntoAccount = function(){
+  //   clickLogInButtons();
+  // }
+
+  // clickIntoAccount();
+
+  clickLogInButtons();
+
 });
