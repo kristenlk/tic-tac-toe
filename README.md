@@ -21,4 +21,11 @@ The game then begins - users are notified whose turn it is at any given time in 
     - If the middle cell is already occupied, and only one cell in any of the cell combinations is occupied by the computer, the computer should move into a corresponding corner cell.
     - Else: move into a corner cell. Move clockwise around the board to choose cell.
 
-Due to time constraints, I was also unable to implement a modal (which would appear after clicking New Game -- it would ask you to register / log in, ask whether you'd like to be X or O, ask who you'd like to play against, etc.) or any animations / waits, all of which I would have loved to have accomplished.
+Things I'd like to implement or fix:
+- Implement: A modal, which would appear after clicking New Game -- it would ask you to register / log in, ask whether you'd like to be X or O, ask who you'd like to play against, etc.
+- Implement: At least one addClass method that would change the styling of winning cell combinations.
+- Implement: Animations / wait times
+- Implement: AJAX to talk to the tic-tac-toe API (corresponding buttons / click handlers were created, but data entered doesn't actually go anywhere)
+- Implement / Fix: The JS / jQuery for my game controls isn't organized / re-structured yet.
+- Implement / Fix: I would have liked to list comments throughout the JS that briefly describe what's going on in a function.
+- Fix: When a game ends, the New Game button displays to the right of the "game over" message; I'd like the button to display below the message.

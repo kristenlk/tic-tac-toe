@@ -108,13 +108,11 @@ var Game = (function(){
 
 
   var _setRandomBeginner = function(){
-    var _randomNumber = 0.2; // Math.random();
+    var _randomNumber = Math.random();
     if (_randomNumber < 0.5) {
       _currentPlayer = _playerOne;
-      console.log('currentPlayer: ' + _currentPlayer + ', userPlayer: ' + _playerOne + ', computerPlayer: ' + _playerTwo);
     } else {
       _currentPlayer = _playerTwo;
-      console.log('currentPlayer: ' + _currentPlayer + ', userPlayer: ' + _playerOne + ', computerPlayer: ' + _playerTwo);
     }
     return _currentPlayer;
   };

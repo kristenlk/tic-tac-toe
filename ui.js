@@ -10,13 +10,12 @@ $(document).ready(function() {
     Game.resetBoard();
   };
 
-// not this one
   var setRandomBeginnerUI = function(){
     var firstPlayer = Game.setRandomBeginner();
     if (firstPlayer === Game.playerOne()) {
       if (Game.gameCount() === 0) {
         $prompt.append(' Player 1 has been randomly chosen to go first this round. Player 1, select a box to make your first move.');
-      } else if (Game.gameCount()> 0) {
+      } else if (Game.gameCount() > 0) {
         $prompt.html(' Player 1 has been randomly chosen to go first this round. Player 1, select a box to make your first move.')
       }
     } else {
@@ -30,9 +29,9 @@ $(document).ready(function() {
 
   var updatesScoreboard = function(){
     Game.countsPlays();
-    $('#ties').html('Ties: ' + Game.ties());
-    $('#player1-wins').html('Player 1: <br>' + Game.playerOneWins());
-    $('#player2-wins').html('Player 2: <br>' + Game.playerTwoWins());
+    $('#ties').html('<strong>Ties: </strong><br>' + Game.ties());
+    $('#player1-wins').html('<strong>Player 1: </strong><br>' + Game.playerOneWins());
+    $('#player2-wins').html('<strong>Player 2: </strong><br>' + Game.playerTwoWins());
   };
 
   var makeMove = function(){
@@ -90,7 +89,7 @@ $(document).ready(function() {
     } else if (Game.gameCount() > 0) {
       $prompt.show();
       setRandomBeginnerUI();
-      console.log('Game.setRandomBeginner: ' + Game.setRandomBeginner())
+      // console.log('Game.setRandomBeginner: ' + Game.setRandomBeginner())
       makeMove();
     }
   };
@@ -105,9 +104,6 @@ $(document).ready(function() {
   };
 
 
-// Functions: Game.resetBoard(), Game.setPlayers(), Game.setRandomBeginner(), Game.isvalidmove(), Game.addToBoard(), Game.isGameOver(), Game.isTie(), Game.countsPlays(), Game.switchPlayer()
-// Variables: Game.gameCount, Game.userPlayer, Game.moveCount, Game.currentPlayer, ties, userWins, computerWins
-
 
 // Login / game controls
 
@@ -115,26 +111,33 @@ $(document).ready(function() {
   $('#login-fields').hide();
   $('#game-controls').hide();
   $('[name="login-buttons-interior"]').hide();
+  $('#open-games').hide();
+  $('#show-games').hide();
 
-  var clickLogInButtons = function(){
-    $('#login-buttons').find('button').on('click', function(){
-      $('#login-buttons').hide();
-      $('#login-fields').show();
-      if (this.id === 'login1') {
-        $('#login').show();
-      } else {
-        $('#register').show();
-      }
-    });
-  };
+  $('#login-buttons').find('button').on('click', function(){
+    $('#login-buttons').hide();
+    $('#login-fields').show();
+    if (this.id === 'login1') {
+      $('#login').show();
+    } else {
+      $('#register').show();
+    }
+  });
 
+  $('#login-fields').find('button').on('click', function(){
+    $('#login-buttons').hide();
+    $('#login-fields').hide();
+    $('#game-controls').show();
+  });
 
-  // var clickIntoAccount = function(){
-  //   clickLogInButtons();
-  // }
+  $('#list').on('click', function(){
+    $('#open-games').show();
+    $('#game-controls').hide();
+  });
 
-  // clickIntoAccount();
-
-  clickLogInButtons();
+  $('#join').on('click', function(){
+    $('#show-games').show();
+    $('#game-controls').hide();
+  });
 
 });
