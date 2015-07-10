@@ -1,160 +1,176 @@
-var Game = (function(){
+//var Game = (function(){
 
-  var _currentPlayer;
-  var _userPlayer;
-  var _computerPlayer;
-  var gameCount = 0;
-  var moveCount = 0;
-  var userWins = 0;
-  var computerWins = 0;
-  var ties = 0;
+  // var _currentPlayer; etc.
 
-  //
+var currentPlayer;
+var userPlayer;
+var computerPlayer;
+var gameCount = 0;
+var moveCount = 0;
+var userWins = 0;
+var computerWins = 0;
+var ties = 0;
 
-  var board = ['', '', '', '', '', '', '', '', ''];
+//
 
-
-  var _addToBoard = function(player, cell){
-    board[cell] = player;
-    console.log(board);
-  };
-
-  //
-
-  var _winsDiagonal = function(player){
-    var won;
-    if ((board[0] === player &&
-         board[4] === player &&
-         board[8] === player) ||
-        (board[2] === player &&
-         board[4] === player &&
-         board[6] === player)) {
-      won = true;
-    } else {
-      won = false;
-    }
-    return won;
-  };
+var board = ['', '', '', '', '', '', '', '', ''];
 
 
-  var _winsHorizontal = function(player){
-    var won;
-    if ((board[0] === player &&
-         board[1] === player &&
-         board[2] === player) ||
-        (board[3] === player &&
-         board[4] === player &&
-         board[5] === player) ||
-        (board[6] === player &&
-         board[7] === player &&
-         board[8] === player )){
-      won = true;
-    } else {
-      won = false;
-    }
-    return won;
-  };
+var addToBoard = function(player, cell){
+  board[cell] = player;
+  console.log(board);
+};
 
+//
 
-  var _winsVertical = function(player){
-    var won;
-    if ((board[0] === player &&
-         board[3] === player &&
-         board[6] === player) ||
-        (board[1] === player &&
-         board[4] === player &&
-         board[7] === player) ||
-        (board[2] === player &&
-         board[5] === player &&
-         board[8] === player )) {
-      won = true;
-    } else {
-      won = false;
-    }
-    return won;
-  };
-
-
-  //
-
-
-  var _isWinner = function(player){
-    return (winsDiagonal(player) === true) || (
-         winsHorizontal(player) === true) || (
-         winsVertical(player) === true);
-  };
-
-
-  // make sure to test this - this function depends on moveCount
-  var _isTie = function(){
-    return moveCount === 9 && !isWinner('X') && !isWinner('O');
-  };
-
-
-  //
-
-
-  var _isGameOver = function(){
-    return isWinner('X') || isWinner('O') || isTie();
+var winsDiagonal = function(player){
+  var won;
+  if ((board[0] === player &&
+       board[4] === player &&
+       board[8] === player) ||
+      (board[2] === player &&
+       board[4] === player &&
+       board[6] === player)) {
+    won = true;
+  } else {
+    won = false;
   }
+  return won;
+};
 
 
-  //
-
-
-  var _isValidMove = function(index){
-    return board[index] === '';
+var winsHorizontal = function(player){
+  var won;
+  if ((board[0] === player &&
+       board[1] === player &&
+       board[2] === player) ||
+      (board[3] === player &&
+       board[4] === player &&
+       board[5] === player) ||
+      (board[6] === player &&
+       board[7] === player &&
+       board[8] === player )){
+    won = true;
+  } else {
+    won = false;
   }
+  return won;
+};
 
 
-  var _setRandomBeginner = function(){
-    var randomNumber = Math.random();
-    console.log(randomNumber);
-    if (randomNumber < 0.5) {
-      _currentPlayer = _userPlayer;
-    } else {
-      _currentPlayer = _computerPlayer;
-    }
-    return _currentPlayer;
-  };
-
-
-  //
-  var _setPlayers = function(playerOne, playerTwo) {
-    _userPlayer = playerOne;
-    _computerPlayer = playerTwo;
+var winsVertical = function(player){
+  var won;
+  if ((board[0] === player &&
+       board[3] === player &&
+       board[6] === player) ||
+      (board[1] === player &&
+       board[4] === player &&
+       board[7] === player) ||
+      (board[2] === player &&
+       board[5] === player &&
+       board[8] === player )) {
+    won = true;
+  } else {
+    won = false;
   }
+  return won;
+};
 
 
-  var _switchPlayer = function(){
-    if (_currentPlayer === 'X') {
-      _currentPlayer = 'O';
-    } else {
-      _currentPlayer = 'X';
-    }
-    return _currentPlayer;
+//
+
+
+var isWinner = function(player){
+  return (winsDiagonal(player) === true) || (
+       winsHorizontal(player) === true) || (
+       winsVertical(player) === true);
+};
+
+
+// make sure to test this - this function depends on moveCount
+var isTie = function(){
+  return moveCount === 9 && !isWinner('X') && !isWinner('O');
+};
+
+
+//
+
+
+var isGameOver = function(){
+  return isWinner('X') || isWinner('O') || isTie();
+}
+
+
+//
+
+
+var isValidMove = function(index){
+  return board[index] === '';
+}
+
+
+var setRandomBeginner = function(){
+  var randomNumber = Math.random();
+  console.log(randomNumber);
+  if (randomNumber < 0.5) {
+    currentPlayer = userPlayer;
+  } else {
+    currentPlayer = computerPlayer;
   }
+  return currentPlayer;
+};
 
 
-  var _countsPlays = function(){
-    if (isTie()) {
-      ties++;
-    } else if (_currentPlayer === _userPlayer) {
-      userWins++;
-    } else if (_currentPlayer === _computerPlayer) {
-      computerWins++;
-    }
+// var setRandomBeginner = function(){
+//   var randomNumber = Math.random();
+//   console.log(randomNumber);
+//   if (randomNumber < 0.5) {
+//     _currentPlayer = _userPlayer;
+//   } else {
+//     _currentPlayer = _computerPlayer;
+//   }
+//   return _currentPlayer;
+// };
+// etc...
+
+
+//
+var setPlayers = function(playerOne, playerTwo) {
+  userPlayer = playerOne;
+  computerPlayer = playerTwo;
+}
+
+
+var switchPlayer = function(){
+  if (currentPlayer === 'X') {
+    currentPlayer = 'O';
+  } else {
+    currentPlayer = 'X';
   }
+  return currentPlayer;
+}
 
-  var _resetBoard = function(){
-    board = ['', '', '', '', '', '', '', '', ''];
-  };
+// var _countsPlays()
 
-  return {
-    resetBoard: _resetBoard,
-  };
+var countsPlays = function(){
+  if (isTie()) {
+    ties++;
+  } else if (currentPlayer === userPlayer) {
+    userWins++;
+  } else if (currentPlayer === computerPlayer) {
+    computerWins++;
+  }
+}
 
-})();
+var resetBoard = function(){
+  board = ['', '', '', '', '', '', '', '', ''];
+};
+
+//   return {
+//     resetBoard: _resetBoard,
+//   };
+
+// })();
 
 
 

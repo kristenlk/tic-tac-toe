@@ -2,18 +2,22 @@ $(document).ready(function() {
 
   var $cell = $('#board').find('div');
   var originalPrompt = $('#prompt').html();
+  $('#prompt').hide();
 
   var newGame = function(){
     $(this).hide();
-    $('#welcome').hide();
+    // $('#welcome').hide();
     clearBoard();
     moveCount = 0; // Game.newGame();
     if (gameCount === 0) {
       $('#prompt').show();
       $('#prompt').html(originalPrompt);
-      $('.player-choice').on('click', choiceSelection);
+      // $('.player-choice').on('click', choiceSelection);
+      $('[name="player-choice"]').on('click', choiceSelection);
     } else if (gameCount > 0) {
       $('#prompt').show();
+      // $('#prompt').css('display', 'table-cell');
+      // $('#prompt').css('vertical-align', 'middle');
       setRandomBeginnerUI();
       makeMove();
     }

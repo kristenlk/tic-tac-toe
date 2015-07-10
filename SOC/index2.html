@@ -2,12 +2,16 @@
 <html>
   <head>
     <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="style2.css">
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Noto+Sans:700|Arimo:700|Ubuntu:700|Montserrat:700|Raleway:800' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
     <!-- Not working: <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js" defer charset="utf-8"></script>-->
   </head>
   <body>
-    <div id="login-info">
+    <!--<div id="login-info">
       <input type="text" placeholder="email address">
       <input type="password" placeholder="password">
       <button>Register</button>
@@ -21,24 +25,21 @@
         <li><input type="radio" name="open-games" value="valueOne">Value One</li>
         <li><input type="radio" name="open-games" value="valueTwo">Value Two</li>
       </ul>
-    </div>
+    </div>-->
+    <h1>tic - tac - toe</h1>
     <div id="scoreboard">
       <div id="user-wins">You: 0</div>
       <div id="computer-wins">Computer: 0</div>
       <div id="ties">Ties: 0</div>
     </div>
     <div id="messaging">
-      <div id="welcome">
-      Welcome to Tic-Tac-Toe!
-      </div>
-      <br/>
       <div id="prompt">
-        Would you like to be X or O?
-        <button type="button" class="player-choice" id="X">X</button>
-        <button type="button" class="player-choice" id="O">O</button>
+        Would you like to be X or O?<br>
+        <button class="btn btn-default" name="player-choice" id="X" type="submit">X</button>
+        <button class="btn btn-default" name="player-choice" id="O" type="submit">O</button>
       </div>
       <div id="new-game-button">
-        <button type="button" id="newgamebutton">New Game</button>
+        <button class="btn btn-default" id="newgamebutton" type="submit">New Game</button>
       </div>
     </div>
     <div id="board">
