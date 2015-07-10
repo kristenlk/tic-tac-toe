@@ -1,0 +1,27 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "Tic Tac Toe",
+  "main": "ui.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristenlk/tic-tac-toe.git"
+  },
+  "keywords": [
+    "tic",
+    "tac",
+    "toe"
+  ],
+  "author": "Kristen Kehlenbeck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kristenlk/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/kristenlk/tic-tac-toe#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.5"
+  }
+}
