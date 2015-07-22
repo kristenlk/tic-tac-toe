@@ -22,3 +22,5 @@ The game then begins - users are notified whose turn it is at any given time in 
     - Else: move into a corner cell. Move clockwise around the board to choose cell.
 
 Due to time constraints, I was also unable to implement a modal (which would appear after clicking New Game -- it would ask you to register / log in, ask whether you'd like to be X or O, ask who you'd like to play against, etc.) or any animations / waits, all of which I would have loved to have accomplished.
+
+http://kristenlk.github.io/tic-tac-toe/
